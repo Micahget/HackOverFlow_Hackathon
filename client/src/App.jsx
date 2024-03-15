@@ -1,11 +1,14 @@
 import React from "react";
-import VideoInput from "./VideoInput";
+// import VideoInput from "./VideoInput";
+import Navbar from "./Navbar";
+import { HomePage } from "./HomePage";
 
 const App = () => {
   return (
-    <div>
-      <VideoInput />
-    </div>
+    <>
+      <Navbar />
+      <div>{/* <VideoInput /> */}</div>
+    </>
   );
 };
 export default App;

@@ -7,7 +7,6 @@ const VideoInput = () => {
   const [value, setValue] = useState(10);
 
   const handleFileChange = (event) => {
-    
     const File = event.target.files[0];
 
     const FileSize = File.size;
@@ -37,7 +36,7 @@ const VideoInput = () => {
     <>
       <div className="border-8 text-center grid place-content-center h-screen ">
         <h1 className="text-[50px] p-8">
-          <b>Traffic Violation Detection</b>
+          <b>Traffic Violation Management</b>
         </h1>
         <div className="border border-black rounded-md p-8">
           {source && (
