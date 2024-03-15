@@ -36,7 +36,7 @@ const VideoInput = () => {
     <>
       <div className="border-8 text-center grid place-content-center h-screen ">
         <h1 className="text-[50px] p-8">
-          <b>Traffic Violation Management</b>
+          <b>Traffic Violation Detection</b>
         </h1>
         <div className="border border-black rounded-md p-8">
           {source && (

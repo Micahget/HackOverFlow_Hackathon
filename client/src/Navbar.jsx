@@ -2,8 +2,6 @@ import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { NavLink } from "react-router-dom";
 
-// import { useNavigate } from "react-router-dom";
-
 const Navbar = () => {
   const { user, loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
@@ -15,14 +13,18 @@ const Navbar = () => {
           <div className="flex list-none space-x-4 p-3 md:px-20 py-5 font-serif">
             <li className="cursor-pointer rounded-lg px-3  text-black text-lg  hover:text-slate-900">
               <h2 className="text-white   font-semibold ">
-                <a href="/">Traffic Violation Detection</a>
+                <a href="/">Traffic Violation Management</a>
               </h2>
             </li>
             <li>
               <NavLink to="/">Home</NavLink>
             </li>
-            <li>About</li>
-            <li>FAQ</li>
+            <li>
+              <NavLink to="/Aboutus">About</NavLink>
+            </li>
+            <li>
+              <NavLink to="/">FAQ</NavLink>
+            </li>
           </div>
           {/* 3 Division */}
 
