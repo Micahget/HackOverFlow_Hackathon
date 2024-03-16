@@ -1,3 +1,4 @@
+import sys
 import cv2
 import re
 import requests
@@ -58,7 +59,7 @@ def process_frame(frame, detector, license_plate_cascade):
             # # Apply OCR to the license plate image
             # text = apply_ocr_to_image(license_plate_image) # instead of using pytesseract I can use another OCR library like easyocr
             # The implementation of easyocr is as follows:
-            reader = easyocr.Reader(['en'], gpu=True) # here i want to use gpu for faster processing  # I can also use the cpu by setting gpu to False. To 
+            reader = easyocr.Reader(['en'], gpu=True)
             result = reader.readtext(license_plate_image)
             text = result[0][-2]
             # Check if the text is a valid license plate and not already penalized
@@ -80,6 +81,16 @@ def process_frame(frame, detector, license_plate_cascade):
 
 
 def main():
+    if len(sys.argv) > 2:
+        print("Usage: python main.py <video_path>")
+        return
+    
+    # check if the video path is provided
+    if len(sys.argv) == 2:
+        video_path = sys.argv[1]
+    else:
+        video_path = VIDEO_PATH
+    print("Received video path: ", video_path)
     # Download Haar Cascade XML file
     download_haarcascade(URL_HAARCASCADE)
 
@@ -96,7 +107,7 @@ def main():
     clear_license_plates(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME)
 
     # Open the video file
-    vid = cv2.VideoCapture(VIDEO_PATH)
+    vid = cv2.VideoCapture(video_path)
 
     # Create detector object
     detector = LineDetector()
