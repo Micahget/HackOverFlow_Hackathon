@@ -1,59 +1,42 @@
-const express = require('express');
-// const bodyParser = require('body-parser');
-// const axios = require('axios');
-const cors = require('cors');
-const mysql = require('mysql');
+const express = require("express");
+const cors = require("cors"); // Import the cors middleware
+const multer = require("multer");
+const path = require("path");
 
-// Import required modules
-
-// Create an Express app
 const app = express();
+const PORT = 5050;
 
-// Configure body-parser middleware to parse JSON data
-// app.use(bodyParser.json());
-
+// Use the cors middleware
 app.use(cors());
 
-//connection with mysql database
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'test'
-  });
-  
-connection.connect();
+// Set up multer for file upload
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
 
-app.get('/data', (req, res) => {
-    connection.query('SELECT * FROM del_test', (err, results) => {
-      if (err) throw err;
-      res.json(results);
-    });
-  });
+const upload = multer({ storage: storage });
 
-// Define a route to receive user input from the React application
-// app.post('/user-input', (req, res) => {
-//     // Extract the user input from the request body
-//     const userInput = req.body;
+// Handle POST request to /record
+app.post("/record", upload.single("video"), (req, res) => {
+  if (!req.file) {
+    console.log("No file uploaded");
+    return res.status(400).json({ error: "No file uploaded" });
+  }
 
-//     // Send the user input to the Streamlit application
-//     axios.post('http://streamlit-app-url/user-input', userInput)
-//         .then(response => {
-//             // Handle the response from the Streamlit application
-//             console.log(response.data);
-//             res.status(200).send('User input sent to Streamlit application successfully');
-//         })
-//         .catch(error => {
-//             // Handle any errors that occurred during the request
-//             console.error(error);
-//             res.status(500).send('Error sending user input to Streamlit application');
-//         });
-// });
+  const localFilePath = path.join(__dirname, "uploads", req.file.filename);
 
 
+  res.status(200).json({ filePath: localFilePath });
+});
 
+// now 
 
-// Start the Express server
-app.listen(3005, () => {
-    console.log('Server is running on port 3005');
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
